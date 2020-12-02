@@ -6,6 +6,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-community/async-storage";
+
+// IMPORT DES ICONS ONGLETS
+import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 // IMPORT DES SCREENS
@@ -30,9 +33,9 @@ export default function App() {
 
   const setToken = async (token) => {
     if (token) {
-      AsyncStorage.setItem("userToken", token);
+      await AsyncStorage.setItem("userToken", token);
     } else {
-      AsyncStorage.removeItem("userToken");
+      await AsyncStorage.removeItem("userToken");
     }
     setUserToken(token);
   };
@@ -54,13 +57,10 @@ export default function App() {
     );
   }
 
-  const LogoBack = () => {
-    return <AntDesign name="arrowleft" size={24} color="black" />;
-  };
-
   return (
     <NavigationContainer>
       {isLoading ? null : userToken === null ? (
+        // SI LE TOKEN N'EST PAS ENREGISTRÉ
         <Stack.Navigator>
           <Stack.Screen
             name="HomeLogin"
@@ -76,25 +76,137 @@ export default function App() {
             options={{
               headerTitle: "S'inscrire",
               headerTitleAlign: "center",
-              headerLeft: LogoBack,
+              headerBackImage: ({ color }) => (
+                <AntDesign name={"arrowleft"} size={25} color={color} />
+              ),
+              headerBackTitle: " ",
             }}
           >
-            {() => <SignUpScreen />}
+            {() => <SignUpScreen setToken={setToken} />}
           </Stack.Screen>
           <Stack.Screen
             name="Login"
             options={{
               headerTitle: "Se connecter",
               headerTitleAlign: "center",
+              headerBackImage: ({ color }) => (
+                <AntDesign name={"arrowleft"} size={25} color={color} />
+              ),
+              headerBackTitle: " ",
             }}
           >
-            {() => <LoginScreen />}
+            {() => <LoginScreen setToken={setToken} />}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (
-        <NavigationContainer>
-          <Text>Token reçu</Text>
-        </NavigationContainer>
+        // SI LE TOKEN EST ENREGISTRÉ
+        <Stack.Navigator>
+          {/* création de la tabBar */}
+          <Stack.Screen
+            name="tab"
+            options={{
+              header: () => null,
+              animationEnabled: false,
+            }}
+          >
+            {() => (
+              <Tab.Navigator
+                tabBarOptions={{
+                  activeTintColor: "#4AB1BA",
+                  inactiveTintColor: "#838383",
+                }}
+              >
+                {/* 1er onglet: accueil avec les anonces  */}
+                <Tab.Screen
+                  name="Home"
+                  options={{
+                    headerTitle: "Annonces",
+                    headerTitleAlign: "left",
+                    tabBarLabel: "Home",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons name={"ios-home"} size={size} color={color} />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen name="Home">
+                        {(props) => <HomeScreen {...props} />}
+                      </Stack.Screen>
+                      <Stack.Screen name="Offre">
+                        {(props) => <OffreScreen {...props} />}
+                      </Stack.Screen>
+                      <Stack.Screen name="Buy">
+                        {(props) => <BuyScreen {...props} />}
+                      </Stack.Screen>
+                      <Stack.Screen name="OtherProfil">
+                        {(props) => <OtherProfilScreen {...props} />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+                {/* 2e onglet: rechercher */}
+                <Tab.Screen
+                  name="Search"
+                  options={{
+                    tabBarLabel: "Chercher",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons name={"search"} size={size} color={color} />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen name="Chercher">
+                        {(props) => <SearchScreen {...props} />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+                {/* 3e onglet: vendre */}
+                <Tab.Screen
+                  name="Vendre"
+                  options={{
+                    tabBarLabel: "Vendre",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons
+                        name={"add-circle-outline"}
+                        size={size}
+                        color={color}
+                      />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen name="Vendre">
+                        {(props) => <VendreScreen {...props} />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+                {/* 4e onglet: profil */}
+                <Tab.Screen
+                  name="Profil"
+                  options={{
+                    tabBarLabel: "Profil",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons name={"person"} size={size} color={color} />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen name="Profil">
+                        {(props) => <ProfilScreen {...props} />}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+              </Tab.Navigator>
+            )}
+          </Stack.Screen>
+        </Stack.Navigator>
       )}
     </NavigationContainer>
   );

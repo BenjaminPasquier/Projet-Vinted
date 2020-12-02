@@ -30,11 +30,11 @@ export default function HomeLoginScreen() {
           <View>
             <Image
               style={styles.img}
-              source={require("../assets/imgLoginHome/photo2.png")}
+              source={require("../assets/imgLoginHome/photo7.png")}
             />
             <Image
               style={styles.img}
-              source={require("../assets/imgLoginHome/photo7.png")}
+              source={require("../assets/imgLoginHome/photo2.png")}
             />
           </View>
           <View>
