@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-community/async-storage";
+import Constants from "expo-constants";
 
 // IMPORT DES ICONS ONGLETS
 import { Ionicons } from "@expo/vector-icons";
@@ -105,8 +106,11 @@ export default function App() {
           <Stack.Screen
             name="tab"
             options={{
-              header: () => null,
-              animationEnabled: false,
+              headerStyle: {
+                height: Constants.statusBarHeight,
+                backgroundColor: "white",
+              },
+              headerTitle: false,
             }}
           >
             {() => (
@@ -120,8 +124,6 @@ export default function App() {
                 <Tab.Screen
                   name="Home"
                   options={{
-                    headerTitle: "Annonces",
-                    headerTitleAlign: "left",
                     tabBarLabel: "Home",
                     tabBarIcon: ({ color, size }) => (
                       <Ionicons name={"ios-home"} size={size} color={color} />
@@ -130,7 +132,12 @@ export default function App() {
                 >
                   {() => (
                     <Stack.Navigator>
-                      <Stack.Screen name="Home">
+                      <Stack.Screen
+                        name="Home"
+                        options={{
+                          headerTitle: "Fil d'actus",
+                        }}
+                      >
                         {(props) => <HomeScreen {...props} />}
                       </Stack.Screen>
                       <Stack.Screen name="Offre">
@@ -151,7 +158,7 @@ export default function App() {
                   options={{
                     tabBarLabel: "Chercher",
                     tabBarIcon: ({ color, size }) => (
-                      <Ionicons name={"search"} size={size} color={color} />
+                      <Ionicons name={"ios-search"} size={24} color={color} />
                     ),
                   }}
                 >
@@ -170,7 +177,7 @@ export default function App() {
                     tabBarLabel: "Vendre",
                     tabBarIcon: ({ color, size }) => (
                       <Ionicons
-                        name={"add-circle-outline"}
+                        name={"ios-add-circle-outline"}
                         size={size}
                         color={color}
                       />
@@ -191,7 +198,7 @@ export default function App() {
                   options={{
                     tabBarLabel: "Profil",
                     tabBarIcon: ({ color, size }) => (
-                      <Ionicons name={"person"} size={size} color={color} />
+                      <Ionicons name={"ios-person"} size={size} color={color} />
                     ),
                   }}
                 >
