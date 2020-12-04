@@ -81,7 +81,7 @@ export default function HomeScreen({ navigation }) {
             </TouchableOpacity>
           );
         }}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
       />
     </SafeAreaView>
   );

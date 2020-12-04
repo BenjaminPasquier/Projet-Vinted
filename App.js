@@ -140,7 +140,13 @@ export default function App() {
                       >
                         {(props) => <HomeScreen {...props} />}
                       </Stack.Screen>
-                      <Stack.Screen name="Offre">
+                      <Stack.Screen
+                        name="Offre"
+                        options={{
+                          header: () => null,
+                          animationEnabled: false,
+                        }}
+                      >
                         {(props) => <OffreScreen {...props} />}
                       </Stack.Screen>
                       <Stack.Screen name="Buy">
