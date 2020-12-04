@@ -33,9 +33,9 @@ export default function HomeScreen({ navigation }) {
     <ActivityIndicator size="large" color="#4AB1BA" margin={400} />
   ) : (
     <SafeAreaView style={styles.safeAreaView}>
-      <Text>Début FlatList</Text>
       <FlatList
-        data={data}
+        data={data.offers}
+        numColumns={2}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
@@ -46,23 +46,43 @@ export default function HomeScreen({ navigation }) {
                 });
               }}
             >
-              <Image
-                source={{ uri: item.offers[0].owner[0].account.avatar.url }}
-                style={styles.avatar}
-              />
+              <View style={styles.profil}>
+                <Image
+                  source={
+                    item.owner.account.avatar && {
+                      uri: item.owner.account.avatar.secure_url,
+                    }
+                  }
+                  style={styles.avatar}
+                />
+                <Text style={styles.details}>
+                  {item.owner.account.username}
+                </Text>
+              </View>
+              <View style={styles.img}>
+                <Image
+                  source={
+                    item.product_pictures[0] && {
+                      uri: item.product_pictures[0].secure_url,
+                    }
+                  }
+                  style={styles.picture}
+                />
+              </View>
+              <View style={styles.infos}>
+                <Text style={styles.price}>{item.product_price} €</Text>
+                <Text style={styles.details}>
+                  {item.product_details[0].MARQUE}
+                </Text>
+                <Text style={styles.details}>
+                  {item.product_details[1].TAILLE}
+                </Text>
+              </View>
             </TouchableOpacity>
           );
         }}
         keyExtractor={(item) => item.id}
       />
-      <Text>Fin FlatList</Text>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("Offre");
-        }}
-      >
-        <Text>Offre</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -71,26 +91,54 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     backgroundColor: "white",
-  },
-
-  exemple: {
-    height: 300,
-    width: 150,
-    borderColor: "blue",
-    borderWidth: 2,
+    paddingLeft: 10,
+    paddingHorizontal: 10,
   },
 
   annonce: {
-    height: 300,
-    width: 150,
-    borderWidth: 1,
-    borderColor: "red",
-    backgroundColor: "black",
+    height: 360,
+    width: 190,
+    marginBottom: 10,
+    marginRight: 10,
+  },
+
+  profil: {
+    height: 40,
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
   },
 
   avatar: {
-    height: 50,
-    width: 50,
-    borderRadius: 25,
+    height: 25,
+    width: 25,
+    borderRadius: 15,
+    marginHorizontal: 7,
+  },
+
+  img: {
+    height: 250,
+    width: "100%",
+  },
+
+  picture: {
+    flex: 1,
+  },
+
+  infos: {
+    height: 70,
+    width: "100%",
+    justifyContent: "center",
+    paddingLeft: 10,
+  },
+
+  price: {
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+
+  details: {
+    fontSize: 12,
+    color: "#A0A0A0",
   },
 });
