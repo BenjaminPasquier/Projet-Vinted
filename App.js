@@ -13,12 +13,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 // IMPORT DES SCREENS
-import BuyScreen from "./containers/BuyScreen";
 import HomeLoginScreen from "./containers/HomeLoginScreen";
 import HomeScreen from "./containers/HomeScreen";
 import LoginScreen from "./containers/LoginScreen";
 import OffreScreen from "./containers/OffreScreen";
-import ProfilOtherScreen from "./containers/ProfilOtherScreen";
 import ProfilScreen from "./containers/ProfilScreen";
 import SearchScreen from "./containers/SearchScreen";
 import SignUpScreen from "./containers/SignUpScreen";
@@ -34,9 +32,9 @@ export default function App() {
 
   const setToken = async (token) => {
     if (token) {
-      await AsyncStorage.setItem("userToken", token);
+      AsyncStorage.setItem("userToken", token);
     } else {
-      await AsyncStorage.removeItem("userToken");
+      AsyncStorage.removeItem("userToken");
     }
     setUserToken(token);
   };
@@ -44,7 +42,7 @@ export default function App() {
   useEffect(() => {
     const bootstrapAsync = async () => {
       const userToken = await AsyncStorage.getItem("userToken");
-
+      alert(`userToken: ${userToken}`);
       setIsLoading(false);
       setUserToken(userToken);
     };
@@ -149,12 +147,6 @@ export default function App() {
                       >
                         {(props) => <OffreScreen {...props} />}
                       </Stack.Screen>
-                      <Stack.Screen name="Buy">
-                        {(props) => <BuyScreen {...props} />}
-                      </Stack.Screen>
-                      <Stack.Screen name="OtherProfil">
-                        {(props) => <OtherProfilScreen {...props} />}
-                      </Stack.Screen>
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
@@ -210,8 +202,16 @@ export default function App() {
                 >
                   {() => (
                     <Stack.Navigator>
-                      <Stack.Screen name="Profil">
-                        {(props) => <ProfilScreen {...props} />}
+                      <Stack.Screen
+                        name="Profil"
+                        options={{
+                          header: () => null,
+                          animationEnabled: false,
+                        }}
+                      >
+                        {(props) => (
+                          <ProfilScreen {...props} setToken={setToken} />
+                        )}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}

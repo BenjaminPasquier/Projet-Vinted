@@ -5,7 +5,7 @@ import {
   View,
   Image,
   ImageBackground,
-  SafeAreaView,
+  ScrollView,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -35,7 +35,7 @@ export default function OffreScreen({ navigation, route }) {
   return isLoading ? (
     <ActivityIndicator size="large" color="#4AB1BA" margin={400} />
   ) : (
-    <View style={styles.global}>
+    <ScrollView style={styles.global}>
       <ImageBackground
         style={styles.img}
         source={{ uri: data.product_pictures[0].secure_url }}
@@ -51,18 +51,43 @@ export default function OffreScreen({ navigation, route }) {
         />
       </ImageBackground>
       <View style={styles.profil}>
-        <Text>Profil</Text>
+        <View>
+          <Image
+            style={styles.avatar}
+            source={{ uri: data.owner.account.avatar.secure_url }}
+          />
+        </View>
+        <View>
+          <Text style={styles.tallText}>{data.owner.account.username}</Text>
+          <Text></Text>
+        </View>
       </View>
       <View style={styles.infos}>
-        <Text>Infos</Text>
+        <Text>{data.product_name}</Text>
+
+        <Text style={styles.infosText}>
+          {data.product_details[1].TAILLE
+            ? data.product_details[1].TAILLE
+            : "TAILLE UNIQUE"}{" "}
+          /{" "}
+          {data.product_details[1].TAILLE
+            ? data.product_details[2].ÉTAT
+            : data.product_details[1].ÉTAT}{" "}
+          / {data.product_details[0].MARQUE}
+        </Text>
+
+        <Text style={styles.tallText}> {data.product_price} €</Text>
       </View>
       <View style={styles.description}>
-        <Text>Descrpition</Text>
+        <Text style={styles.présentationText}>PRÉSENTATION DE L'ARTICLE</Text>
+        <Text>{data.product_description}</Text>
       </View>
       <View style={styles.buttons}>
-        <Text>Boutons</Text>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>ACHETER</Text>
+        </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -73,7 +98,7 @@ const styles = StyleSheet.create({
   },
 
   img: {
-    height: 500,
+    height: 450,
     width: "100%",
   },
 
@@ -82,30 +107,67 @@ const styles = StyleSheet.create({
   },
 
   profil: {
+    height: 70,
+    paddingHorizontal: 10,
+    borderBottomColor: "#D7D7D7",
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  avatar: {
     height: 50,
+    width: 50,
+    borderRadius: 25,
+    marginRight: 20,
+  },
+
+  tallText: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+
+  infos: {
+    height: 90,
     paddingHorizontal: 10,
     borderBottomColor: "#D7D7D7",
     borderBottomWidth: 1,
     justifyContent: "center",
   },
 
-  infos: {
-    height: 70,
-    paddingHorizontal: 10,
-    borderBottomColor: "#D7D7D7",
-    borderBottomWidth: 1,
-    justifyContent: "space-around",
+  infosText: {
+    marginVertical: 5,
+    color: "#838383",
   },
 
   description: {
-    height: 100,
     paddingHorizontal: 10,
     borderBottomColor: "#D7D7D7",
     borderBottomWidth: 1,
-    justifyContent: "space-around",
+    paddingVertical: 10,
+  },
+
+  présentationText: {
+    marginBottom: 10,
+    color: "#838383",
   },
 
   buttons: {
     paddingHorizontal: 10,
+  },
+
+  button: {
+    height: 40,
+    width: "100%",
+    backgroundColor: "#4AB1BA",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+
+  buttonText: {
+    color: "white",
+    fontSize: 16,
   },
 });

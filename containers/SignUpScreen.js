@@ -36,7 +36,7 @@ export default function SignUpScreen({ setToken }) {
           if (response.data.token) {
             alert("Inscription réussie");
             setToken(response.data.token);
-            await AsyncStorage.setItem("token", response.data.token);
+            // await AsyncStorage.setItem("token", token);
           } else {
             setErrorMessage("Votre requête n'a pas abouti");
             alert("Incription ratée");

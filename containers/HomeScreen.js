@@ -134,11 +134,11 @@ const styles = StyleSheet.create({
 
   price: {
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: "500",
   },
 
   details: {
     fontSize: 12,
-    color: "#A0A0A0",
+    color: "#838383",
   },
 });
