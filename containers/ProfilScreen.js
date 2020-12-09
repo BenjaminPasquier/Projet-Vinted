@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,8 +9,18 @@ import {
   ImageBackground,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default function ProfilScreen({ setToken }) {
+  const [newEmail, setNewEmail] = useState();
+  const [newUsername, setNewUsername] = useState();
+  const [newPassword, setNewPassword] = useState();
+
+  const handleSubmit = () => {
+    alert("Vous avez bien été déconnecté");
+    setToken();
+  };
+
   return (
     <View style={styles.globalView}>
       <View style={styles.imgView}>
@@ -28,25 +38,47 @@ export default function ProfilScreen({ setToken }) {
             </View>
           </View>
           <View style={styles.pseudoView}>
-            <Text style={styles.pseudo}>Pseudo</Text>
+            <Text style={styles.pseudo}>PSEUDO</Text>
           </View>
         </ImageBackground>
       </View>
       <View style={styles.infos}>
         <View>
-          <Text>Email</Text>
-          <TextInput placeholder="Email"></TextInput>
-          <Text>Username</Text>
-          <TextInput placeholder="Username"></TextInput>
-          <Text>Password</Text>
-          <TextInput placeholder="Password"></TextInput>
+          <Text style={styles.inputName}>Adresse email</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            keyboardType="email-address"
+            onChangeText={(text) => {
+              setNewEmail(text);
+            }}
+          />
+          <Text style={styles.inputName}>Nom d'utilisateur</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            onChangeText={(text) => {
+              setNewUsername(text);
+            }}
+          />
+          <Text style={styles.inputName}>Mot de passe</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry={true}
+            onChangeText={(text) => {
+              setNewPassword(text);
+            }}
+          />
         </View>
         <View>
-          <TouchableOpacity>
-            <Text>Sauvegarder les modifications</Text>
+          <TouchableOpacity style={styles.saveButton}>
+            <Text style={styles.saveText} onpress={handleSubmit}>
+              Sauvegarder les modifications
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Text>Se déconnecter</Text>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleSubmit}>
+            <Text style={styles.logoutText}>Se déconnecter</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -83,7 +115,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "flex-end",
     paddingBottom: 20,
-    marginTop: 70,
+    marginTop: 80,
   },
 
   picture: {
@@ -115,8 +147,51 @@ const styles = StyleSheet.create({
   },
 
   pseudo: {
-    color: "black",
+    color: "lightyellow",
     fontWeight: "800",
-    fontSize: 22,
+    fontSize: 26,
+  },
+
+  inputName: {
+    marginVertical: 5,
+    fontSize: 20,
+    color: "grey",
+  },
+
+  input: {
+    fontSize: 20,
+    borderBottomColor: "#D7D7D7",
+    borderBottomWidth: 1,
+    marginBottom: 10,
+  },
+
+  saveButton: {
+    height: 40,
+    width: "100%",
+    backgroundColor: "#4AB1BA",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+
+  saveText: {
+    color: "white",
+    fontSize: 16,
+  },
+
+  logoutButton: {
+    height: 40,
+    width: "100%",
+    borderColor: "#4AB1BA",
+    borderWidth: 1,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  logoutText: {
+    color: "#4AB1BA",
+    fontSize: 16,
   },
 });

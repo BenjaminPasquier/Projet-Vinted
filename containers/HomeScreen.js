@@ -49,9 +49,11 @@ export default function HomeScreen({ navigation }) {
               <View style={styles.profil}>
                 <Image
                   source={
-                    item.owner.account.avatar && {
-                      uri: item.owner.account.avatar.secure_url,
-                    }
+                    item.owner.account.avatar
+                      ? {
+                          uri: item.owner.account.avatar.secure_url,
+                        }
+                      : require("../assets/avatarVinted.png")
                   }
                   style={styles.avatar}
                 />
@@ -62,9 +64,11 @@ export default function HomeScreen({ navigation }) {
               <View style={styles.img}>
                 <Image
                   source={
-                    item.product_pictures[0] && {
-                      uri: item.product_pictures[0].secure_url,
-                    }
+                    item.product_pictures[0]
+                      ? {
+                          uri: item.product_pictures[0].secure_url,
+                        }
+                      : { uri: item.product_image.secure_url }
                   }
                   style={styles.picture}
                 />

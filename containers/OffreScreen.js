@@ -35,59 +35,90 @@ export default function OffreScreen({ navigation, route }) {
   return isLoading ? (
     <ActivityIndicator size="large" color="#4AB1BA" margin={400} />
   ) : (
-    <ScrollView style={styles.global}>
-      <ImageBackground
-        style={styles.img}
-        source={{ uri: data.product_pictures[0].secure_url }}
+    <View style={styles.global}>
+      <ScrollView
+        style={styles.carrousel}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
       >
-        <AntDesign
-          style={styles.back}
-          name={"arrowleft"}
-          size={50}
-          color={"black"}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      </ImageBackground>
-      <View style={styles.profil}>
-        <View>
-          <Image
-            style={styles.avatar}
-            source={{ uri: data.owner.account.avatar.secure_url }}
+        <ImageBackground
+          style={styles.img}
+          source={{ uri: data.product_pictures[0].secure_url }}
+        >
+          <AntDesign
+            style={styles.back}
+            name={"arrowleft"}
+            size={50}
+            color={"black"}
+            onPress={() => {
+              navigation.goBack();
+            }}
           />
+        </ImageBackground>
+        {data.product_pictures[1] && (
+          <ImageBackground
+            style={styles.img}
+            source={{
+              uri: data.product_pictures[1].secure_url,
+            }}
+          />
+        )}
+        {data.product_pictures[2] && (
+          <ImageBackground
+            style={styles.img}
+            source={{
+              uri: data.product_pictures[2].secure_url,
+            }}
+          />
+        )}
+        {data.product_pictures[3] && (
+          <ImageBackground
+            style={styles.img}
+            source={{
+              uri: data.product_pictures[3].secure_url,
+            }}
+          />
+        )}
+      </ScrollView>
+      <ScrollView>
+        <View style={styles.profil}>
+          <View>
+            <Image
+              style={styles.avatar}
+              source={{ uri: data.owner.account.avatar.secure_url }}
+            />
+          </View>
+          <View>
+            <Text style={styles.tallText}>{data.owner.account.username}</Text>
+          </View>
         </View>
-        <View>
-          <Text style={styles.tallText}>{data.owner.account.username}</Text>
-          <Text></Text>
+        <View style={styles.infos}>
+          <Text>{data.product_name}</Text>
+
+          <Text style={styles.infosText}>
+            {data.product_details[1].TAILLE
+              ? data.product_details[1].TAILLE
+              : "TAILLE UNIQUE"}{" "}
+            /{" "}
+            {data.product_details[1].TAILLE
+              ? data.product_details[2].ÉTAT
+              : data.product_details[1].ÉTAT}{" "}
+            / {data.product_details[0].MARQUE}
+          </Text>
+
+          <Text style={styles.tallText}> {data.product_price} €</Text>
         </View>
-      </View>
-      <View style={styles.infos}>
-        <Text>{data.product_name}</Text>
-
-        <Text style={styles.infosText}>
-          {data.product_details[1].TAILLE
-            ? data.product_details[1].TAILLE
-            : "TAILLE UNIQUE"}{" "}
-          /{" "}
-          {data.product_details[1].TAILLE
-            ? data.product_details[2].ÉTAT
-            : data.product_details[1].ÉTAT}{" "}
-          / {data.product_details[0].MARQUE}
-        </Text>
-
-        <Text style={styles.tallText}> {data.product_price} €</Text>
-      </View>
-      <View style={styles.description}>
-        <Text style={styles.présentationText}>PRÉSENTATION DE L'ARTICLE</Text>
-        <Text>{data.product_description}</Text>
-      </View>
-      <View style={styles.buttons}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>ACHETER</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+        <View style={styles.description}>
+          <Text style={styles.présentationText}>PRÉSENTATION DE L'ARTICLE</Text>
+          <Text>{data.product_description}</Text>
+        </View>
+        <View style={styles.buttons}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>ACHETER</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -96,10 +127,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
+  carrousel: {
+    flexDirection: "row",
+  },
 
   img: {
     height: 450,
-    width: "100%",
+    width: 430,
   },
 
   back: {
